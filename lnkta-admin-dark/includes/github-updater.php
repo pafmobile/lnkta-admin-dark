@@ -9,7 +9,7 @@ final class LNKTA_Admin_Dark_GitHub_Updater {
     const REPO = 'pafmobile/lnkta-admin-dark';
     const SLUG = 'lnkta-admin-dark';
     const CACHE_KEY = 'lnkta_admin_dark_github_release_v1';
-    const VERSION = '2.0.1';
+    const VERSION = '2.0.3';
 
     public static function init() {
         add_filter('pre_set_site_transient_update_plugins', array(__CLASS__, 'check_for_updates'));
