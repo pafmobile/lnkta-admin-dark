@@ -9,12 +9,15 @@ final class LNKTA_Admin_Dark_GitHub_Updater {
     const REPO = 'pafmobile/lnkta-admin-dark';
     const SLUG = 'lnkta-admin-dark';
     const CACHE_KEY = 'lnkta_admin_dark_github_release_v1';
-    const VERSION = '2.0.3';
+    const VERSION = '2.0.4';
 
     public static function init() {
         add_filter('pre_set_site_transient_update_plugins', array(__CLASS__, 'check_for_updates'));
         add_filter('plugins_api', array(__CLASS__, 'plugin_info'), 20, 3);
-        add_filter('auto_update_plugin', array(__CLASS__, 'enable_auto_update'), 10, 2);
+        // Respect the user's native Plugins > Enable/Disable auto-updates setting.
+        // WordPress 5.8+ uses this dedicated filter for plugins with Update URI.
+        add_filter('update_plugins_github.com', array(__CLASS__, 'update_via_uri'), 10, 4);
+        add_filter('site_transient_update_plugins', array(__CLASS__, 'check_for_updates'));
         add_action('upgrader_process_complete', array(__CLASS__, 'flush_cache'), 10, 2);
     }
 
@@ -56,9 +59,11 @@ final class LNKTA_Admin_Dark_GitHub_Updater {
     public static function check_for_updates($transient) {
         if (!is_object($transient)) { return $transient; }
         $file = plugin_basename(dirname(__DIR__) . '/lnkta-admin-dark.php');
+        if (empty($transient->checked) || !is_array($transient->checked)) { return $transient; }
+        $installed_version = isset($transient->checked[$file]) ? (string) $transient->checked[$file] : self::VERSION;
         $release = self::release();
         if (!$release) { return $transient; }
-        if (version_compare($release['version'], self::VERSION, '>')) {
+        if (version_compare($release['version'], $installed_version, '>')) {
             $transient->response[$file] = (object) array(
                 'slug' => self::SLUG,
                 'plugin' => $file,
@@ -71,6 +76,21 @@ final class LNKTA_Admin_Dark_GitHub_Updater {
             unset($transient->response[$file]);
         }
         return $transient;
+    }
+
+    public static function update_via_uri($update, $plugin_data, $plugin_file, $locales) {
+        if ($plugin_file !== self::SLUG . '/lnkta-admin-dark.php') { return $update; }
+        $release = self::release();
+        if (!$release) { return $update; }
+        // WordPress compares this version with the installed plugin itself.
+        return array(
+            'slug' => self::SLUG,
+            'version' => $release['version'],
+            'url' => $release['url'],
+            'package' => $release['package'],
+            'requires' => '5.8',
+            'tested' => '6.9',
+        );
     }
 
     public static function plugin_info($result, $action, $args) {
@@ -89,15 +109,10 @@ final class LNKTA_Admin_Dark_GitHub_Updater {
         );
     }
 
-    public static function enable_auto_update($update, $item) {
-        if (!is_object($item)) { return $update; }
-        if (!empty($item->plugin) && $item->plugin === self::SLUG . '/lnkta-admin-dark.php') { return true; }
-        return $update;
-    }
-
     public static function flush_cache($upgrader, $options) {
         if (!empty($options['type']) && $options['type'] === 'plugin') {
             delete_site_transient(self::CACHE_KEY);
+            delete_site_transient('update_plugins');
         }
     }
 }
