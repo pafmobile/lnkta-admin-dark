@@ -963,3 +963,58 @@ body.wp-admin:is(.post-php,.post-new-php) :is(
   color:var(--la-soft)!important;
   border-color:var(--la-line)!important;
 }
+
+
+/* v2.0.3 — ACF PRO Field Group editor, post-editor tabs, and taxonomy metaboxes. */
+body.wp-admin:is(.post-type-acf-field-group,.acf-admin-page) :is(
+ .acf-admin-page-header,.acf-headerbar,.acf-admin-toolbar,.acf-admin-toolbar-inner,
+ .acf-field-list,.acf-field-list-wrap,.acf-field-list-header,.acf-field-list-footer,
+ .acf-field-object,.acf-field-object .handle,.acf-field-object .acf-field-settings,
+ .acf-box,.acf-box .inner,.acf-box .footer,
+ .acf-settings-form,.acf-field-settings,.acf-field-group-settings,
+ .acf-field-list > li,.acf-table,.acf-table thead,.acf-table tbody,
+ .acf-table th,.acf-table td,#acf-field-group-fields,#acf-field-group-options,
+ #acf-field-group-fields .inside,#acf-field-group-options .inside
+){
+ background:var(--la-panel)!important;color:var(--la-soft)!important;
+ border-color:var(--la-line)!important;box-shadow:none!important;
+}
+body.wp-admin:is(.post-type-acf-field-group,.acf-admin-page) :is(
+ .acf-field-list .acf-field-object:hover,.acf-field-list .acf-field-object:focus-within,
+ .acf-field-list .acf-field-object.-open,.acf-table tbody tr:hover > td
+){background:#292728!important;color:var(--la-text)!important;}
+body.wp-admin:is(.post-type-acf-field-group,.acf-admin-page) :is(
+ .acf-field-list-header,.acf-table thead th,.acf-headerbar h1,
+ .acf-field-object .field-label,.acf-field-object .field-name,
+ .acf-box h2,.acf-box h3,.acf-field-group-title
+){background:var(--la-panel)!important;color:var(--la-text)!important;}
+body.wp-admin:is(.post-type-acf-field-group,.acf-admin-page) :is(
+ .acf-button-group,.acf-button-group label,.acf-button-group button,
+ .acf-field-button-group .acf-input label,.acf-field-settings .acf-tab-wrap a,
+ .acf-settings-form .acf-tab-group li a
+){background:var(--la-input)!important;color:var(--la-soft)!important;border-color:var(--la-line)!important;}
+body.wp-admin:is(.post-type-acf-field-group,.acf-admin-page) :is(
+ .acf-button-group label.selected,.acf-button-group label.active,
+ .acf-button-group label:has(input:checked),
+ .acf-field-settings .acf-tab-wrap .active a
+){background:#303031!important;color:var(--la-text)!important;border-bottom-color:var(--la-accent)!important;}
+body.wp-admin:is(.post-type-acf-field-group,.acf-admin-page) :is(
+ .acf-field-settings input:not([type=checkbox]):not([type=radio]),
+ .acf-field-settings select,.acf-field-settings textarea,
+ .acf-admin-page-header input,.acf-headerbar input
+){background:var(--la-input)!important;color:var(--la-text)!important;border-color:#56504b!important;}
+body.wp-admin:is(.post-php,.post-new-php) :is(
+ .acf-tab-wrap,.acf-tab-group li a,.acf-tab-button,
+ .categorydiv .tabs-panel,.categorydiv .categorychecklist,
+ .tagsdiv .inside,.tagsdiv .tagchecklist,
+ .categorydiv ul.category-tabs li a,.postbox ul.category-tabs li a,
+ .taxonomydiv .inside
+){background:var(--la-panel)!important;color:var(--la-soft)!important;border-color:var(--la-line)!important;}
+body.wp-admin:is(.post-php,.post-new-php) :is(
+ .acf-tab-group li.active a,.acf-tab-group li.-active a,
+ .categorydiv ul.category-tabs li.tabs a,.postbox ul.category-tabs li.tabs a
+){background:#303031!important;color:var(--la-text)!important;border-bottom-color:var(--la-accent)!important;}
+body.wp-admin:is(.post-php,.post-new-php) :is(
+ .categorychecklist li,.categorydiv label,.tagsdiv label,
+ .categorydiv .selectit,.tagchecklist li
+){color:var(--la-soft)!important;}
