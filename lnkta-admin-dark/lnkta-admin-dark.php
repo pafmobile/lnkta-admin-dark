@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LNKTA Admin Dark — Lens Archive
  * Description: Flat dark WordPress admin UI with grouped Custom Posts and Plugins Options menus.
- * Version: 2.0.7
+ * Version: 2.0.8
  * Author: LNKTA
  * License: GPL-2.0-or-later
  * Update URI: https://github.com/pafmobile/lnkta-admin-dark
@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) { exit; }
 require_once __DIR__ . '/includes/github-updater.php';
 
 add_action('admin_enqueue_scripts', function () {
-    wp_enqueue_style('lnkta-admin-dark', plugins_url('assets/admin.css', __FILE__), array(), '2.0.7');
+    wp_enqueue_style('lnkta-admin-dark', plugins_url('assets/admin.css', __FILE__), array(), '2.0.8');
 }, 999);
 
 add_filter('tiny_mce_before_init', function ($settings) {
@@ -168,3 +168,62 @@ function lnkta_admin_group_landing() {
     if (!current_user_can('read')) { wp_die(esc_html__('Sorry, you are not allowed to access this page.')); }
     echo '<div class="wrap"><h1>Lens Archive — Admin</h1><p>Select an item from the sidebar section.</p></div>';
 }
+
+/**
+ * Presentation-only hierarchy for the grouped Custom Posts submenu.
+ * Parent CPT links remain the real WordPress URLs; taxonomy links are visual children.
+ */
+add_action('admin_footer', function () {
+    if (!current_user_can('read')) { return; }
+    ?>
+    <script>
+    (function () {
+        var root = document.querySelector('#toplevel_page_lnkta-custom-posts .wp-submenu');
+        if (!root) return;
+
+        var links = Array.prototype.slice.call(root.querySelectorAll('a'));
+        var currentUrl = new URL(window.location.href);
+        var currentPostType = currentUrl.searchParams.get('post_type') || '';
+        var lastParent = null;
+
+        links.forEach(function (link) {
+            var li = link.closest('li');
+            if (!li) return;
+
+            var url;
+            try { url = new URL(link.href, window.location.origin); }
+            catch (e) { return; }
+
+            var isParent = url.pathname.endsWith('/edit.php') && url.searchParams.get('post_type');
+            var isTaxonomy = url.pathname.endsWith('/edit-tags.php') &&
+                url.searchParams.get('taxonomy') &&
+                url.searchParams.get('post_type');
+
+            if (isParent) {
+                lastParent = li;
+                li.classList.add('lnkta-cpt-parent-item');
+                link.classList.add('lnkta-cpt-parent-link');
+                li.dataset.lnktaPostType = url.searchParams.get('post_type') || '';
+            } else if (isTaxonomy) {
+                li.classList.add('lnkta-cpt-child-item');
+                link.classList.add('lnkta-cpt-child-link');
+                li.dataset.lnktaPostType = url.searchParams.get('post_type') || '';
+                if (lastParent && lastParent.dataset.lnktaPostType === li.dataset.lnktaPostType) {
+                    li.classList.add('lnkta-cpt-child-of-current-group');
+                }
+            }
+        });
+
+        if (currentPostType) {
+            var activeParent = root.querySelector(
+                '.lnkta-cpt-parent-item[data-lnkta-post-type="' +
+                CSS.escape(currentPostType) + '"]'
+            );
+            if (activeParent) {
+                activeParent.classList.add('lnkta-cpt-parent-active');
+            }
+        }
+    }());
+    </script>
+    <?php
+}, 999);
