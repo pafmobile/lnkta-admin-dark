@@ -1,13 +1,25 @@
 # LNKTA Admin Dark — Lens Archive
 
-Flat dark WordPress administration theme using the Lens Archive palette.
+Flat WordPress administration design inspired by the LNKTA Vintage Lens Archive palette.
 
-## Repository setup status
+## Install
 
-The GitHub Releases updater and GitHub Actions release workflow have been committed. **The full plugin source files and first tagged release are not yet published**, so automatic updates are not active yet.
+Download **lnkta-admin-dark.zip** from the [latest GitHub Release](https://github.com/pafmobile/lnkta-admin-dark/releases/latest), then install via WordPress → Plugins → Add Plugin → Upload Plugin, replacing any previous version.
 
-The complete v2.0.0 source files are provided as a separate downloadable ZIP in the ChatGPT conversation. Extract that archive and upload the `lnkta-admin-dark/lnkta-admin-dark.php` and `lnkta-admin-dark/assets/admin.css` files to these exact locations in this repository. The updater file at `lnkta-admin-dark/includes/github-updater.php` and `.github/workflows/release.yml` are already present.
+## Automatic updates
 
-After committing the source, create and push Git tag `v2.0.0`; the workflow builds a GitHub Release with `lnkta-admin-dark.zip` attached. Install that plugin ZIP once in WordPress. Future newer tagged releases can then update the plugin automatically via the WordPress updater.
+As of **v2.0.0**, this plugin checks the latest public GitHub Release (cached for six hours) and registers newer releases as WordPress plugin updates. Background updates are enabled for this specific plugin. The release asset must be named **lnkta-admin-dark.zip** and the plugin folder must remain **lnkta-admin-dark**.
 
-Do not tag the repository until the full plugin source is present; otherwise the release package will be incomplete.
+To publish a new version:
+1. Update `Version:` and the CSS enqueue version in `lnkta-admin-dark/lnkta-admin-dark.php`.
+2. Update `LNKTA_Admin_Dark_GitHub_Updater::VERSION` in `lnkta-admin-dark/includes/github-updater.php`.
+3. Commit the updated source to `main`. GitHub Actions packages the plugin and publishes a new `vX.Y.Z` Release automatically when that version has not been released already.
+
+Keep the repository public so WordPress can download releases. Review code and test each release before bumping versions, since enabled background updates may deploy the next release without additional interaction.
+
+## Theme
+
+- Background: `#151516`
+- Panel: `#1B1B1C`
+- Primary text: `#EBE3D4`
+- Copper accent: `#CF6F38`
