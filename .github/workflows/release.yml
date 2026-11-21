@@ -5,39 +5,61 @@ on:
     tags: ['v*']
 permissions:
   contents: write
+concurrency:
+  group: lnkta-release
+  cancel-in-progress: false
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify complete plugin source
+        with:
+          persist-credentials: true
+      - name: Apply staged v2.0.1 source changes
+        if: github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          if [[ -f .github/patches/v2.0.1.css ]] && grep -q 'Version: 2.0.0' lnkta-admin-dark/lnkta-admin-dark.php; then
+            cat .github/patches/v2.0.1.css >> lnkta-admin-dark/assets/admin.css
+            python3 - <<'PY'
+          from pathlib import Path
+          for f in [Path('lnkta-admin-dark/lnkta-admin-dark.php'), Path('lnkta-admin-dark/includes/github-updater.php')]:
+              data = f.read_text()
+              data = data.replace('2.0.0', '2.0.1')
+              f.write_text(data)
+          PY
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add lnkta-admin-dark/lnkta-admin-dark.php lnkta-admin-dark/includes/github-updater.php lnkta-admin-dark/assets/admin.css
+            git commit -m "Release v2.0.1 editor styling corrections"
+            git push origin HEAD:main
+          fi
+      - name: Verify complete source and version
         id: verify
         shell: bash
         run: |
-          if [[ ! -s lnkta-admin-dark/lnkta-admin-dark.php || ! -s lnkta-admin-dark/assets/admin.css || ! -s lnkta-admin-dark/includes/github-updater.php ]]; then
-            echo "Full plugin source not yet uploaded; skipping release"
-            echo "ready=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
+          test -s lnkta-admin-dark/lnkta-admin-dark.php
+          test -s lnkta-admin-dark/assets/admin.css
+          test -s lnkta-admin-dark/includes/github-updater.php
           VERSION="$(sed -nE 's/^ \* Version: ([0-9]+\.[0-9]+\.[0-9]+).*$/\1/p' lnkta-admin-dark/lnkta-admin-dark.php | head -n 1)"
-          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Invalid WordPress plugin version" >&2
-            exit 1
-          fi
-          echo "ready=true" >> "$GITHUB_OUTPUT"
+          [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          grep -q "const VERSION = '$VERSION'" lnkta-admin-dark/includes/github-updater.php
           echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Validate PHP
+        shell: bash
+        run: |
+          php -l lnkta-admin-dark/lnkta-admin-dark.php
+          php -l lnkta-admin-dark/includes/github-updater.php
       - name: Build plugin ZIP
-        if: steps.verify.outputs.ready == 'true'
         run: zip -qr lnkta-admin-dark.zip lnkta-admin-dark -x '*/.DS_Store'
-      - name: Publish if not already released
-        if: steps.verify.outputs.ready == 'true'
+      - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ steps.verify.outputs.tag }}
         shell: bash
         run: |
           if gh release view "$TAG" >/dev/null 2>&1; then
-            echo "Release $TAG already exists; not replacing immutable release"
+            echo "$TAG already released"
             exit 0
           fi
-          gh release create "$TAG" lnkta-admin-dark.zip --target "$GITHUB_SHA" --title "$TAG" --generate-notes
+          gh release create "$TAG" lnkta-admin-dark.zip --target "$(git rev-parse HEAD)" --title "$TAG" --generate-notes
