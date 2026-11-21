@@ -6,7 +6,7 @@
 if (!defined('ABSPATH')) { exit; }
 
 final class LNKTA_Admin_Dark_GitHub_Updater {
-    const VERSION = '2.0.6';
+    const VERSION = '2.0.7';
     const REPO = 'pafmobile/lnkta-admin-dark';
     const SLUG = 'lnkta-admin-dark';
     const FILE = 'lnkta-admin-dark/lnkta-admin-dark.php';
