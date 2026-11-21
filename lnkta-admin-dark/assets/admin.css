@@ -821,3 +821,145 @@ body.wp-admin #adminmenu .toplevel_page_lnkta-custom-posts .wp-submenu a:hover,
 body.wp-admin #adminmenu .toplevel_page_lnkta-custom-posts .wp-submenu li.current a {
   color:var(--la-text)!important;
 }
+/* v2.0.1 — editor chrome consistency: classic editor, ACF and block-editor sidebar.
+ * Deliberately leave .editor-styles-wrapper and .block-editor-block-list__layout
+ * untouched, so the real post content retains its own theme/background colours.
+ */
+body.wp-admin:is(.post-php,.post-new-php) :is(
+  #poststuff,#post-body,#postbox-container-1,#postbox-container-2,
+  .meta-box-sortables,.metabox-holder,.postbox,.postbox-header,.inside,
+  #titlediv,#titlewrap,#edit-slug-box,#post-status-info,
+  #postimagediv .inside,#submitdiv .inside,
+  #taxonomy-category .inside,#taxonomy-post_tag .inside
+) {
+  background-color:var(--la-panel)!important;
+  border-color:var(--la-line)!important;
+  color:var(--la-soft)!important;
+}
+body.wp-admin:is(.post-php,.post-new-php) :is(
+  #title,#titlediv input#title,#titlewrap input,
+  input[name="post_title"],#post_name,#new-tag-post_tag,
+  .acf-input input:not([type=checkbox]):not([type=radio]):not([type=hidden]),
+  .acf-input textarea,.acf-input select
+) {
+  background-color:var(--la-input)!important;
+  color:var(--la-text)!important;
+  -webkit-text-fill-color:var(--la-text)!important;
+  border-color:#56504b!important;
+}
+body.wp-admin:is(.post-php,.post-new-php) :is(
+  .postbox-header h2,.hndle,.acf-label label,
+  #poststuff h2,#poststuff h3,#poststuff h4,
+  .acf-field .acf-label label,.acf-field .acf-label p,
+  #edit-slug-box strong,#misc-publishing-actions label
+) { color:var(--la-text)!important; }
+body.wp-admin:is(.post-php,.post-new-php) :is(
+  .acf-postbox,.acf-postbox .inside,.acf-fields,
+  .acf-fields > .acf-field,.acf-field .acf-label,
+  .acf-field .acf-input,.acf-input-wrap,.acf-tab-wrap,
+  .acf-accordion,.acf-accordion .acf-accordion-title,
+  .acf-accordion .acf-accordion-content,
+  .acf-repeater,.acf-repeater .acf-row,
+  .acf-repeater .acf-row-handle,
+  .acf-flexible-content,.acf-flexible-content .layout,
+  .acf-flexible-content .acf-fc-layout-handle,
+  .acf-fields.-left > .acf-field::before,
+  .acf-fields.-left > .acf-field > .acf-label
+) {
+  background-color:var(--la-panel)!important;
+  color:var(--la-soft)!important;
+  border-color:var(--la-line)!important;
+}
+body.wp-admin:is(.post-php,.post-new-php) :is(
+  .acf-repeater .acf-row:nth-child(even) > .acf-fields,
+  .acf-table > tbody > tr:nth-child(even) > td,
+  .acf-table > tbody > tr:nth-child(even) > th
+) { background-color:#202021!important; }
+body.wp-admin:is(.post-php,.post-new-php) :is(
+  .acf-table > tbody > tr:hover > td,
+  .acf-table > tbody > tr:hover > th,
+  .acf-repeater .acf-row:hover > .acf-row-handle
+) { background-color:#292728!important; }
+body.wp-admin:is(.post-php,.post-new-php) :is(
+  .categorychecklist,.tagchecklist,.tabs-panel,
+  .acf-taxonomy-field .categorychecklist,
+  .acf-relationship .selection,
+  .acf-relationship .selection .choices,
+  .acf-relationship .selection .values,
+  .acf-gallery,.acf-gallery-main,.acf-gallery-toolbar,
+  .acf-gallery-side,.acf-gallery-attachment,
+  .acf-file-uploader,.acf-image-uploader,
+  .acf-checkbox-list,.acf-radio-list
+) {
+  background-color:var(--la-panel)!important;
+  border-color:var(--la-line)!important;
+  color:var(--la-soft)!important;
+}
+body.wp-admin:is(.post-php,.post-new-php) .acf-field :is(.description,.acf-label,.acf-input,label,small) {
+  color:var(--la-soft)!important;
+}
+/* Classic text editor and WYSIWYG chrome (iframe content styled by TinyMCE filter). */
+body.wp-admin:is(.post-php,.post-new-php) :is(
+  .wp-editor-tools,.wp-editor-container,.wp-editor-tabs,
+  .quicktags-toolbar,.mce-tinymce,.mce-top-part,
+  .mce-toolbar-grp,.mce-toolbar,.mce-statusbar,
+  .mce-panel,.mce-btn,.mce-container-body,
+  .wp-switch-editor,.wp-editor-area
+) {
+  background-color:var(--la-panel)!important;
+  border-color:var(--la-line)!important;
+  color:var(--la-soft)!important;
+}
+body.wp-admin:is(.post-php,.post-new-php) :is(
+  .mce-btn button,.mce-ico,.mce-txt,.quicktags-toolbar .button,
+  .wp-switch-editor
+) {color:var(--la-text)!important;}
+/* Block editor admin furniture ONLY; not the content canvas. */
+body.wp-admin:is(.post-php,.post-new-php) :is(
+  .interface-interface-skeleton__header,
+  .interface-interface-skeleton__sidebar,
+  .interface-interface-skeleton__footer,
+  .interface-complementary-area,
+  .interface-complementary-area-header,
+  .editor-header,.edit-post-header,.edit-post-sidebar,
+  .editor-sidebar,.editor-post-publish-panel,
+  .editor-post-publish-panel__header,
+  .editor-post-publish-panel__content,
+  .components-panel,.components-panel__body,
+  .components-panel__body-title,
+  .components-panel__header,
+  .components-tab-panel__tabs,
+  .components-dropdown__content,.components-popover__content
+) {
+  background-color:var(--la-panel)!important;
+  border-color:var(--la-line)!important;
+  color:var(--la-soft)!important;
+}
+body.wp-admin:is(.post-php,.post-new-php) :is(
+  .interface-interface-skeleton__sidebar,
+  .editor-sidebar,.edit-post-sidebar,
+  .editor-post-publish-panel
+) :is(label,p,span,h2,h3,h4,.components-base-control__label,.components-panel__body-toggle) {
+  color:var(--la-soft)!important;
+}
+body.wp-admin:is(.post-php,.post-new-php) :is(
+  .interface-interface-skeleton__sidebar,
+  .editor-sidebar,.edit-post-sidebar,
+  .editor-post-publish-panel
+) :is(input:not([type=checkbox]):not([type=radio]),textarea,select) {
+  background-color:var(--la-input)!important;
+  border-color:var(--la-line)!important;
+  color:var(--la-text)!important;
+}
+/* ACF field group accordion headers and post-editor WordPress system notices. */
+body.wp-admin:is(.post-php,.post-new-php) :is(
+  .acf-postbox .postbox-header,.acf-postbox .hndle,
+  .acf-field-group,.acf-field-group-title,
+  .acf-field-message,.acf-field-message .acf-label,
+  .acf-field-accordion,.acf-accordion-title,
+  .components-notice,.components-notice__content
+) {
+  background-color:var(--la-panel)!important;
+  color:var(--la-soft)!important;
+  border-color:var(--la-line)!important;
+}

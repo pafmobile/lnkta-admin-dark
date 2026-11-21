@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LNKTA Admin Dark — Lens Archive
  * Description: Flat dark WordPress admin UI with grouped Custom Posts and Plugins Options menus.
- * Version: 2.0.0
+ * Version: 2.0.1
  * Author: LNKTA
  * License: GPL-2.0-or-later
  * Text Domain: lnkta-admin-dark
@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) { exit; }
 require_once __DIR__ . '/includes/github-updater.php';
 
 add_action('admin_enqueue_scripts', function () {
-    wp_enqueue_style('lnkta-admin-dark', plugins_url('assets/admin.css', __FILE__), array(), '2.0.0');
+    wp_enqueue_style('lnkta-admin-dark', plugins_url('assets/admin.css', __FILE__), array(), '2.0.1');
 }, 999);
 
 add_filter('tiny_mce_before_init', function ($settings) {
