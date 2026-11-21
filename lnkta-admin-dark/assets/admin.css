@@ -1220,3 +1220,63 @@ body.wp-admin :is(#acf-field-group-fields,.acf-field-list-wrap,.acf-field-list) 
   border-color:var(--la-accent-hover)!important;
   color:#151516!important;
 }
+
+
+/* v2.0.8 — Custom Posts submenu hierarchy.
+   CPT list screens are parents; Categories/Tags are indented visual children. */
+body.wp-admin #toplevel_page_lnkta-custom-posts .wp-submenu li.lnkta-cpt-parent-item {
+  margin-top: 8px;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+body.wp-admin #toplevel_page_lnkta-custom-posts .wp-submenu li.lnkta-cpt-parent-item:first-of-type {
+  margin-top: 0;
+  border-top: 0;
+}
+body.wp-admin #toplevel_page_lnkta-custom-posts .wp-submenu li.lnkta-cpt-parent-item > a {
+  position: relative;
+  padding-top: 8px !important;
+  padding-bottom: 6px !important;
+  font-weight: 650 !important;
+  color: var(--la-text) !important;
+  letter-spacing: .01em;
+}
+body.wp-admin #toplevel_page_lnkta-custom-posts .wp-submenu li.lnkta-cpt-parent-item > a::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin: 0 8px 1px 0;
+  border-radius: 50%;
+  background: var(--la-muted);
+  opacity: .7;
+}
+body.wp-admin #toplevel_page_lnkta-custom-posts .wp-submenu li.lnkta-cpt-child-item > a {
+  position: relative;
+  padding-left: 30px !important;
+  font-size: 12.5px;
+  color: var(--la-muted) !important;
+}
+body.wp-admin #toplevel_page_lnkta-custom-posts .wp-submenu li.lnkta-cpt-child-item > a::before {
+  content: "↳";
+  position: absolute;
+  left: 14px;
+  color: #6f6d69;
+  font-size: 11px;
+  line-height: inherit;
+}
+body.wp-admin #toplevel_page_lnkta-custom-posts .wp-submenu li.lnkta-cpt-child-item > a:hover,
+body.wp-admin #toplevel_page_lnkta-custom-posts .wp-submenu li.lnkta-cpt-child-item.current > a {
+  color: var(--la-text) !important;
+  background: #292728 !important;
+}
+body.wp-admin #toplevel_page_lnkta-custom-posts .wp-submenu li.lnkta-cpt-child-item.current > a {
+  box-shadow: inset 2px 0 0 var(--la-accent);
+}
+body.wp-admin #toplevel_page_lnkta-custom-posts .wp-submenu li.lnkta-cpt-parent-active > a {
+  color: var(--la-accent-hover) !important;
+  background: #262425 !important;
+}
+body.wp-admin #toplevel_page_lnkta-custom-posts .wp-submenu li.lnkta-cpt-parent-active > a::before {
+  background: var(--la-accent);
+  opacity: 1;
+}
