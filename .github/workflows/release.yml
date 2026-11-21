@@ -1,8 +1,8 @@
 name: Package WordPress release
 on:
   push:
-    tags:
-      - 'v*'
+    branches: [main]
+    tags: ['v*']
 permissions:
   contents: write
 jobs:
@@ -10,9 +10,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build installable plugin ZIP
+      - name: Verify complete plugin source
+        id: verify
+        shell: bash
+        run: |
+          if [[ ! -s lnkta-admin-dark/lnkta-admin-dark.php || ! -s lnkta-admin-dark/assets/admin.css || ! -s lnkta-admin-dark/includes/github-updater.php ]]; then
+            echo "Full plugin source not yet uploaded; skipping release"
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          VERSION="$(sed -nE 's/^ \* Version: ([0-9]+\.[0-9]+\.[0-9]+).*$/\1/p' lnkta-admin-dark/lnkta-admin-dark.php | head -n 1)"
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid WordPress plugin version" >&2
+            exit 1
+          fi
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Build plugin ZIP
+        if: steps.verify.outputs.ready == 'true'
         run: zip -qr lnkta-admin-dark.zip lnkta-admin-dark -x '*/.DS_Store'
-      - name: Publish release
+      - name: Publish if not already released
+        if: steps.verify.outputs.ready == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" lnkta-admin-dark.zip --generate-notes --verify-tag
+          TAG: ${{ steps.verify.outputs.tag }}
+        shell: bash
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists; not replacing immutable release"
+            exit 0
+          fi
+          gh release create "$TAG" lnkta-admin-dark.zip --target "$GITHUB_SHA" --title "$TAG" --generate-notes
