@@ -1085,3 +1085,138 @@ body.wp-admin.post-type-acf-field-group :is(
   border-color: #1d6fa5 !important;
   color: #ffffff !important;
 }
+
+
+/* v2.0.7 — complete ACF Field Group editor dark surfaces.
+   Covers both legacy table markup and ACF's newer div-based table layout. */
+body.wp-admin :is(#acf-field-group-fields,.acf-field-list-wrap,.acf-field-list) :is(
+  .acf-thead,.acf-tbody,.acf-tfoot,
+  .acf-th,.acf-td,.acf-tr,
+  .acf-field-list-header,.acf-field-list-footer,
+  .acf-field-list-head,.acf-field-list-body,
+  .acf-field-list-actions,.acf-field-list-action,
+  .acf-actions,.acf-footer,.acf-header,
+  .acf-field-list-empty,.acf-empty,
+  .acf-field-list-table,.acf-field-table,
+  table,thead,tbody,tfoot,tr,th,td
+) {
+  background-color:var(--la-panel)!important;
+  color:var(--la-soft)!important;
+  border-color:var(--la-line)!important;
+  box-shadow:none!important;
+}
+
+/* Header strip: # / Label / Name / Type */
+body.wp-admin :is(#acf-field-group-fields,.acf-field-list-wrap,.acf-field-list) :is(
+  .acf-thead,.acf-field-list-header,.acf-field-list-head,thead,
+  .acf-thead .acf-th,.acf-field-list-header .acf-th,
+  .acf-field-list-head .acf-th,thead th
+) {
+  background-color:#202021!important;
+  color:var(--la-text)!important;
+  border-color:var(--la-line)!important;
+}
+
+/* Force text in header/field list to stay readable. */
+body.wp-admin :is(#acf-field-group-fields,.acf-field-list-wrap,.acf-field-list) :is(
+  .acf-th,.acf-td,th,td,
+  .field-label,.field-name,.field-type,
+  .acf-field-label,.acf-field-name,.acf-field-type,
+  .acf-field-object-title,.acf-field-object-content,
+  span,label,strong,p
+) {
+  color:var(--la-soft)!important;
+}
+body.wp-admin :is(#acf-field-group-fields,.acf-field-list-wrap,.acf-field-list) :is(
+  .acf-thead,.acf-field-list-header,.acf-field-list-head
+) :is(.acf-th,span,label,strong),
+body.wp-admin :is(#acf-field-group-fields,.acf-field-list-wrap,.acf-field-list) thead :is(th,span,label,strong) {
+  color:var(--la-text)!important;
+}
+
+/* Footer / blank area behind Add Field button. */
+body.wp-admin :is(#acf-field-group-fields,.acf-field-list-wrap,.acf-field-list) :is(
+  .acf-tfoot,.acf-field-list-footer,.acf-field-list-actions,
+  .acf-actions,.acf-footer,tfoot,
+  .acf-tfoot .acf-td,.acf-field-list-footer .acf-td,
+  .acf-field-list-actions .acf-td,tfoot td
+) {
+  background-color:#202021!important;
+  color:var(--la-soft)!important;
+  border-color:var(--la-line)!important;
+}
+
+/* Field rows remain flat/dark, with a slightly lighter hover/open state. */
+body.wp-admin :is(#acf-field-group-fields,.acf-field-list-wrap,.acf-field-list) :is(
+  .acf-field-object,.acf-row,.acf-tr,
+  .acf-field-object > .handle,.acf-field-object > .acf-field-settings
+) {
+  background-color:var(--la-panel)!important;
+  color:var(--la-soft)!important;
+  border-color:var(--la-line)!important;
+}
+body.wp-admin :is(#acf-field-group-fields,.acf-field-list-wrap,.acf-field-list) :is(
+  .acf-field-object:hover,.acf-field-object.-open,.acf-field-object.open,
+  .acf-field-object:focus-within,.acf-row:hover,.acf-tr:hover
+) {
+  background-color:#292728!important;
+}
+
+/* Remove ACF's light pseudo backgrounds / overlays on the table surfaces. */
+body.wp-admin :is(#acf-field-group-fields,.acf-field-list-wrap,.acf-field-list) :is(
+  .acf-thead,.acf-tbody,.acf-tfoot,.acf-th,.acf-td,
+  .acf-field-list-header,.acf-field-list-footer,.acf-field-list-actions
+)::before,
+body.wp-admin :is(#acf-field-group-fields,.acf-field-list-wrap,.acf-field-list) :is(
+  .acf-thead,.acf-tbody,.acf-tfoot,.acf-th,.acf-td,
+  .acf-field-list-header,.acf-field-list-footer,.acf-field-list-actions
+)::after {
+  background-color:transparent!important;
+  box-shadow:none!important;
+}
+
+/* Settings below the field list: eliminate remaining white segmented controls and panels. */
+body.wp-admin :is(#acf-field-group-options,.acf-field-group-settings,.acf-settings-form) :is(
+  .acf-fields,.acf-field,.acf-input,.acf-input-wrap,.acf-label,
+  .acf-tab-wrap,.acf-tab-group,.acf-tab-group li,.acf-tab-group li a,
+  .acf-button-group,.acf-button-group label,.acf-button-group button,
+  .acf-radio-list,.acf-checkbox-list,.acf-true-false,
+  fieldset,.acf-box,.acf-box .inner,.acf-box .footer
+) {
+  background-color:var(--la-panel)!important;
+  color:var(--la-soft)!important;
+  border-color:var(--la-line)!important;
+  box-shadow:none!important;
+}
+body.wp-admin :is(#acf-field-group-options,.acf-field-group-settings,.acf-settings-form) :is(
+  input:not([type=checkbox]):not([type=radio]):not([type=hidden]),textarea,select
+) {
+  background-color:var(--la-input)!important;
+  color:var(--la-text)!important;
+  border-color:#56504b!important;
+}
+body.wp-admin :is(#acf-field-group-options,.acf-field-group-settings,.acf-settings-form) :is(
+  .acf-button-group label.selected,.acf-button-group label.active,
+  .acf-button-group label:has(input:checked),
+  .acf-tab-group li.active a,.acf-tab-group li.-active a
+) {
+  background-color:#303031!important;
+  color:var(--la-text)!important;
+  border-color:var(--la-accent)!important;
+}
+
+/* Preserve action buttons as actions instead of turning them into panels. */
+body.wp-admin :is(#acf-field-group-fields,.acf-field-list-wrap,.acf-field-list) :is(
+  a.button,button.button,input.button,.button-primary
+) {
+  background:var(--la-accent)!important;
+  border-color:var(--la-accent)!important;
+  color:#151516!important;
+}
+body.wp-admin :is(#acf-field-group-fields,.acf-field-list-wrap,.acf-field-list) :is(
+  a.button:hover,button.button:hover,input.button:hover,.button-primary:hover
+) {
+  background:var(--la-accent-hover)!important;
+  border-color:var(--la-accent-hover)!important;
+  color:#151516!important;
+}
