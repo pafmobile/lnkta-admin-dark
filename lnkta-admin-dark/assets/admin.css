@@ -1018,3 +1018,70 @@ body.wp-admin:is(.post-php,.post-new-php) :is(
  .categorychecklist li,.categorydiv label,.tagsdiv label,
  .categorydiv .selectit,.tagchecklist li
 ){color:var(--la-soft)!important;}
+
+
+/* v2.0.5 — ACF Field Group editor table header/footer and empty white blocks */
+body.wp-admin.post-type-acf-field-group :is(
+  .acf-field-list table,
+  .acf-field-list-table,
+  .acf-field-list-head,
+  .acf-field-list thead,
+  .acf-field-list thead tr,
+  .acf-field-list thead th,
+  .acf-field-list tbody,
+  .acf-field-list tbody tr,
+  .acf-field-list tbody td,
+  .acf-field-list tfoot,
+  .acf-field-list tfoot tr,
+  .acf-field-list tfoot td,
+  .acf-field-list-footer,
+  .acf-field-list-wrap .footer,
+  .acf-field-list-wrap .footer td,
+  .acf-empty-table,
+  .acf-empty-table td,
+  .acf-empty-row,
+  .acf-empty-row td,
+  .acf-field-list .no-fields-message,
+  .acf-field-list .append,
+  .acf-field-list .acf-row,
+  .acf-field-list .acf-row td,
+  .acf-field-list .acf-row th
+) {
+  background: var(--la-panel) !important;
+  color: var(--la-soft) !important;
+  border-color: var(--la-line) !important;
+  box-shadow: none !important;
+}
+body.wp-admin.post-type-acf-field-group :is(
+  .acf-field-list thead th,
+  .acf-field-list-head,
+  .acf-field-list-footer,
+  .acf-field-list-wrap .footer,
+  .acf-field-list .append td,
+  .acf-empty-row td,
+  .acf-empty-table td
+) {
+  background: #202021 !important;
+  color: var(--la-text) !important;
+}
+body.wp-admin.post-type-acf-field-group :is(
+  .acf-field-list tbody tr:hover > td,
+  .acf-field-list tbody tr:hover > th,
+  .acf-field-list .acf-row:hover > td,
+  .acf-field-list .acf-row:hover > th
+) {
+  background: #292728 !important;
+  color: var(--la-text) !important;
+}
+body.wp-admin.post-type-acf-field-group :is(
+  .acf-field-list .button,
+  .acf-field-list .button-primary,
+  .acf-field-list-wrap .button,
+  .acf-field-list-wrap .button-primary,
+  .acf-field-list-footer .button,
+  .acf-field-list-footer .button-primary
+) {
+  background: #1d6fa5 !important;
+  border-color: #1d6fa5 !important;
+  color: #ffffff !important;
+}
